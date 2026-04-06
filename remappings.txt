@@ -1,3 +1,12 @@
 forge-std/=lib/forge-std/src/
 ds-test/=lib/forge-std/lib/ds-test/src/
 forge-ctf/=lib/forge-ctf/src/
+eigenlayer/=lib/eigenlayer-contracts/src/contracts/
+
+@openzeppelin/=lib/openzeppelin-contracts/
+solmate/=lib/solmate/src/
+
+src/blackout/=src/#-blackout/
+src/sentinel-protocol/=src/#-sentinel-protocol/
+src/stakehouse/=src/#-stakehouse/
+src/the-scrambled-zoo/=src/#-the-scrambled-zoo/
