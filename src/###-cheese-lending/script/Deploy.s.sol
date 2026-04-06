@@ -7,41 +7,37 @@ import "../src/CheeseLending.sol";
 import "../src/Cheese.sol";
 import "./Cow.s.sol";
 
-
 contract Deploy is CTFDeployer {
-    function deploy(address system, address player) internal override returns (address challenge) {
-        vm.startBroadcast(system);
+  function deploy(address system, address player) internal override returns (address challenge) {
+    vm.startBroadcast(system);
 
-        uint256 initialSupply = 0;
-        Cheese gruyere = new Cheese(initialSupply, "Gruyere", "GRY");
-        Cheese emmental = new Cheese(initialSupply, "Emmental", "ETL");
+    uint256 initialSupply = 0;
+    Cheese gruyere = new Cheese(initialSupply, "Gruyere", "GRY");
+    Cheese emmental = new Cheese(initialSupply, "Emmental", "ETL");
 
-        CheeseLending cheeseLending = new CheeseLending(player, address(gruyere), address(emmental));
+    CheeseLending cheeseLending = new CheeseLending(player, address(gruyere), address(emmental));
 
-        Cow cow = new Cow(cheeseLending);
+    Cow cow = new Cow(cheeseLending);
 
-        gruyere.mint(player, 100 * 1e18);
-        gruyere.mint(address(cow), 10 * 1e18);
-        gruyere.dropMint();
-        require(gruyere.totalSupply() == 110 * 1e18);
+    gruyere.mint(player, 100 * 1e18);
+    gruyere.mint(address(cow), 10 * 1e18);
+    gruyere.dropMint();
+    require(gruyere.totalSupply() == 110 * 1e18);
 
-        emmental.mint(player, 100 * 1e18);
-        emmental.mint(address(cow), 10 * 1e18);
-        emmental.dropMint();
+    emmental.mint(player, 100 * 1e18);
+    emmental.mint(address(cow), 10 * 1e18);
+    emmental.dropMint();
 
-        require(emmental.totalSupply() == 110 * 1e18);
+    require(emmental.totalSupply() == 110 * 1e18);
 
-        cow.init(gruyere, emmental);
+    cow.init(gruyere, emmental);
 
-        challenge = address(cheeseLending);
+    challenge = address(cheeseLending);
 
+    require(emmental.balanceOf(address(cheeseLending)) > 0);
+    require(gruyere.balanceOf(address(cheeseLending)) > 0);
 
-        require(emmental.balanceOf(address(cheeseLending))>0);
-        require(gruyere.balanceOf(address(cheeseLending))>0);
-
-
-        vm.stopBroadcast();
-    }
+    vm.stopBroadcast();
+  }
 }
-
 

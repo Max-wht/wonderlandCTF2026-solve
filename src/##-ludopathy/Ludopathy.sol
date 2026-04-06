@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.19;
 
-import {ILudopathy} from './interfaces/ILudopathy.sol';
+import {ILudopathy} from "./interfaces/ILudopathy.sol";
 
 contract Ludopathy is ILudopathy {
   uint256 public constant SINGLE_BET_COST = 1.2 ether;
@@ -118,8 +118,8 @@ contract Ludopathy is ILudopathy {
 
     uint256 _amountToPay = (WINNER_BOOST + _winningBet.amountOfNumbers) * PRIZE_PER_WINNING_NUMBER;
     bool _success;
-    if (_amountToPay > _rounds.prizePool) (_success,) = payable(msg.sender).call{value: _rounds.prizePool}('');
-    else (_success,) = payable(msg.sender).call{value: _amountToPay}('');
+    if (_amountToPay > _rounds.prizePool) (_success,) = payable(msg.sender).call{value: _rounds.prizePool}("");
+    else (_success,) = payable(msg.sender).call{value: _amountToPay}("");
     if (!_success) revert BadCall();
     emit PrizeClaimed(msg.sender, _amountToPay, _rounds.prizePool);
   }
@@ -129,7 +129,7 @@ contract Ludopathy is ILudopathy {
   */
   function dustClaim() external {
     if (block.timestamp < END_TIMESTAMP) revert ContractStillActive();
-    (bool _success,) = payable(msg.sender).call{value: address(this).balance}('');
+    (bool _success,) = payable(msg.sender).call{value: address(this).balance}("");
     if (!_success) revert BadCall();
   }
 }

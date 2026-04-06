@@ -1,26 +1,23 @@
 import "../src/CheeseLending.sol";
 import "../src/Cheese.sol";
 
+contract Cow {
+  CheeseLending cheeseLending;
 
-contract Cow{
+  constructor(CheeseLending lending) {
+    cheeseLending = lending;
+  }
 
-    CheeseLending cheeseLending;
+  bool _init = false;
 
-    constructor(CheeseLending lending){
-        cheeseLending = lending;
-    }
+  function init(Cheese gruyere, Cheese emmental) public {
+    require(!_init);
+    _init = true;
 
+    gruyere.approve(address(cheeseLending), 2 ** 256 - 1);
+    emmental.approve(address(cheeseLending), 2 ** 256 - 1);
 
-    bool _init = false;
-
-    function init(Cheese gruyere , Cheese emmental ) public{
-        require(!_init);
-        _init = true;
-
-        gruyere.approve(address(cheeseLending), 2**256-1);
-        emmental.approve(address(cheeseLending), 2**256-1);
-
-        cheeseLending.supply(address(emmental), emmental.balanceOf(address(this)));
-        cheeseLending.supply(address(gruyere),  gruyere.balanceOf(address(this)));
-    }    
+    cheeseLending.supply(address(emmental), emmental.balanceOf(address(this)));
+    cheeseLending.supply(address(gruyere), gruyere.balanceOf(address(this)));
+  }
 }
