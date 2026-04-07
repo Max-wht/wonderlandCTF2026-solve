@@ -27,7 +27,7 @@ abstract contract PoolLiquidation is PoolState {
     //? why not use isHealthy()
 
     // Cap the max available debt
-    uint256 userDebt = debtPrincipal[user][debtAsset];// amount of debt asset
+    uint256 userDebt = debtPrincipal[user][debtAsset]; // amount of debt asset
     if (amount > userDebt) {
       amount = userDebt;
     }
